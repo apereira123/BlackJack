@@ -5,11 +5,17 @@ import java.util.Scanner;
 
 public class Player extends Person {
 
+	private ArrayList<Integer> bet = new ArrayList<Integer>(4);
+	private int cash;
 	private int count = 0;
 	
 	private Scanner scan = new Scanner(System.in);
 	
-	public Player() {}
+	public Player() {
+		for (int i = 0; i <= 3; i++) {
+			bet.add(i, 0);
+		}
+	}
 	
 	public void deal(int n) {
 		hands = new ArrayList<Hand>(handsSize);
@@ -49,9 +55,24 @@ public class Player extends Person {
 		}
 	}
 	
+	public int getCash() {
+		return cash;
+	}
+	public void setCash(int n) {
+		cash = n;
+	}
+	
+	public int getBet(int n) {
+		return bet.get(n);
+	}
+	public void setBet(int n, int m) {
+		bet.set(n, m);
+	}
+	
 	public int getCount() {
 		return count;
 	}
+	
 	public boolean notFour() {
 		if (count < 3) {
 			return true;
