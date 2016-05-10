@@ -34,7 +34,7 @@ public class GameLogic {
 				i++;
 			}
 		}
-		System.out.println("The dealer's card is the " + dealer.getCard(0) + ".");
+		System.out.println("The dealer's hole card is the " + dealer.getCard(0) + ".");
 		System.out.println();
 		for (int i = 0; i <= player1.getCount(); i++) {
 			player1.turn(i);
