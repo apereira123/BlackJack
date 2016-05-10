@@ -8,7 +8,7 @@ public class BlackJack {
 	
 	public static int i = 0;
 	public static int temp;
-	public static String string = "";
+	public static String string = "y";
 	
 	public static Player player1 = new Player();
 	public static Dealer dealer = new Dealer();
@@ -21,7 +21,8 @@ public class BlackJack {
 		System.out.println("Enter the amount of money you would like to play with.");
 		player1.setCash(scan.nextInt());
 		
-		do {
+		
+		while (string.matches("y")) {
 			bet1(player1);
 			printCards(player1, 0);
 			printTotal(player1, 0);
@@ -37,7 +38,8 @@ public class BlackJack {
 			reset(player1);
 			System.out.println();
 			System.out.println("If you would like to play again enter \"y\".");
-		} while (scan.nextLine().matches("y"));
+			string = scan.nextLine();
+		}
 		
 		System.out.println("Thank you for playing.");
 		scan.close();
@@ -68,6 +70,7 @@ public class BlackJack {
 	}
 	
 	public static void split(Player player) {
+		string = "";
 		while(i <= player.getCount() && player.notFour()) {
 			if (player.isSplit(i)) {
 				System.out.println("If you want to split enter \"s\".");
@@ -96,8 +99,9 @@ public class BlackJack {
 				System.out.println("Enter the amount of money you would like to bet");
 				temp = scan.nextInt();
 				if (temp <= player.getCash()) {
-					player.setBet(i, temp);
-					int t = player.getCash();
+					int t = player.getBet(i);
+					player.setBet(i, t+temp);
+					t = player.getCash();
 					player.setCash(t-temp);
 				} else {
 					player.setBet(i, player.getCash());
@@ -126,7 +130,9 @@ public class BlackJack {
 				System.out.println("The dealer won.");
 			} else if (dealer.totalScore(0) > 21) {
 				int t1 = 2*player.getBet(i);
+				System.out.println(t1);
 				int t2 = player.getCash();
+				System.out.println(t2);
 				player.setCash(t1 + t2);	
 				System.out.println("You won.");
 			} else if (player.totalScore(i) == dealer.totalScore(0)) {
@@ -134,7 +140,9 @@ public class BlackJack {
 					System.out.println("The dealer won.");
 				} else if (player.isBlackJack(i)) {
 					int t1 = 2*player.getBet(i);
+					System.out.println(t1);
 					int t2 = player.getCash();
+					System.out.println(t2);
 					player.setCash(t1 + t2);	
 					System.out.println("You won.");
 				} else {
@@ -142,7 +150,9 @@ public class BlackJack {
 				}
 			} else if (player.totalScore(i) > dealer.totalScore(0)) {
 				int t1 = 2*player.getBet(i);
+				System.out.println(t1);
 				int t2 = player.getCash();
+				System.out.println(t2);
 				player.setCash(t1 + t2);	
 				System.out.println("You won.");
 			} else {
