@@ -3,7 +3,7 @@ package personal;
 import java.util.Scanner;
 
 public class BlackJack {
-
+	
 	public static Scanner scan = new Scanner(System.in);
 	
 	public static int i = 0;
@@ -38,7 +38,7 @@ public class BlackJack {
 			reset(player1);
 			System.out.println();
 			System.out.println("If you would like to play again enter \"y\".");
-			string = scan.nextLine();
+			string = scan.next();
 		}
 		
 		System.out.println("Thank you for playing.");
@@ -74,7 +74,7 @@ public class BlackJack {
 		while(i <= player.getCount() && player.notFour()) {
 			if (player.isSplit(i)) {
 				System.out.println("If you want to split enter \"s\".");
-				string = scan.nextLine();
+				string = scan.next();
 				if (string.matches("s")) {
 					player.split(i);
 					for (int j = 0; j <= player.getCount(); j++) {
