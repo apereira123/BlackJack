@@ -150,9 +150,7 @@ public class BlackJack {
 				}
 			} else if (player.totalScore(i) > dealer.totalScore(0)) {
 				int t1 = 2*player.getBet(i);
-				System.out.println(t1);
 				int t2 = player.getCash();
-				System.out.println(t2);
 				player.setCash(t1 + t2);	
 				System.out.println("You won.");
 			} else {
