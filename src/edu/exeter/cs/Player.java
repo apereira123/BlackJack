@@ -1,19 +1,19 @@
-package personal;
+package edu.exeter.cs;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Player extends Person {
 
-	private ArrayList<Integer> bet = new ArrayList<Integer>(4);
-	private int cash;
+	private ArrayList<Double> bet = new ArrayList<Double>(4);
+	private double cash;
 	private int count = 0;
 	
 	private Scanner scan = new Scanner(System.in);
 	
 	public Player() {
 		for (int i = 0; i <= 3; i++) {
-			bet.add(i, 0);
+			bet.add(i, 0.);
 		}
 	}
 	
@@ -55,17 +55,17 @@ public class Player extends Person {
 		}
 	}
 	
-	public int getCash() {
+	public double getCash() {
 		return cash;
 	}
-	public void setCash(int n) {
+	public void setCash(double n) {
 		cash = n;
 	}
 	
-	public int getBet(int n) {
+	public double getBet(int n) {
 		return bet.get(n);
 	}
-	public void setBet(int n, int m) {
+	public void setBet(int n, double m) {
 		bet.set(n, m);
 	}
 	

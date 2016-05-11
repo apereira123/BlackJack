@@ -1,4 +1,4 @@
-package personal;
+package edu.exeter.cs;
 
 public class Deck {
 

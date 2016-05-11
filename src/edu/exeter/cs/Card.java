@@ -1,77 +1,44 @@
 package edu.exeter.cs;
 
+import java.util.Scanner;
+
 public class Card {
 	
-	private int suit;
-	private int num;
-	private int value;
-	private String strSuit;
-	private String strNum;
+	private Scanner scan;
+	
+	private int rank;
+	private String card;
+	private String temp;
+	
+	private static Deck deck = new Deck();
 	
 	public Card() {
-		num = (int) (Math.random()*13+1);
-		suit = (int) (Math.random()*4+1);
-		setNumString(num);
-		setSuitString(suit);
-	}
-	
-	public int getValue(){
-		return value;
-	}
-	
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int n) {
-		num = n;
-		setNumString(num);
-	}
-	public String getNumString() {
-		return strNum;
-	}
-	private void setNumString(int n) {
-		if (n == 1) {
-			strNum = "Ace";
-			value = 11;
-		} else if (n == 11) {
-			strNum = "Jack";
-			value = 10;
-		} else if (n == 12) {
-			strNum = "Queen";
-			value = 10;
-		} else if (n == 13) {
-			strNum = "King";
-			value = 10;
+		card = deck.card();
+		scan = new Scanner(card);
+		temp = scan.next();
+		if (temp.matches("Ace")) {
+			rank = 11;
+		} else if (temp.matches("Jack") || temp.matches("Queen") || temp.matches("King")) {
+			rank = 10;
 		} else {
-			strNum = Integer.toString(n);
-			value = n;
+			try {
+			    rank = Integer.parseInt(temp);
+			} catch (NumberFormatException e) {
+				System.out.println(card);
+			}
 		}
 	}
 	
-	public int getSuit() {
-		return suit;
+	public void shuffle() {
+		deck.shuffle();
 	}
-	public void setSuit(int n) {
-		suit = n;
-		setSuitString(suit);
-	}
-	public String getSuitString() {
-		return strSuit;
-	}
-	private void setSuitString(int n) {
-		if (n == 1) {
-			strSuit = "Diamonds";
-		} if (n == 2) {
-			strSuit = "Spades";
-		} if (n == 3) {
-			strSuit = "Hearts";
-		} if (n == 4) {
-			strSuit = "Clubs";
-		}
+	
+	public int getRank() {
+		return rank;
 	}
 	
 	public String toString() {
-		return strNum + " of " + strSuit;
+		return card;
 	}
-
+	
 }
