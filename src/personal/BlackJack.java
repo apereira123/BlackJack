@@ -11,16 +11,20 @@ public class BlackJack {
 	public static int numPlayers;
 	public static String string;
 	
-	public static String[] names = {"Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"};
+	public static String[] names;
 	public static Player[] players;
 	public static Dealer dealer = new Dealer();
 	
 	public static void main(String[] args) {
 		
 		System.out.println("Welcome to blackjack. You can play with up to six people. Enter the number of people you want to play with below.");
+		
 		numPlayers = scan.nextInt();
+		names = new String[numPlayers];
 		players = new Player[numPlayers];
+		
 		for (int i = 0; i < numPlayers; i++) {
+			names[i] = "Player " + (i+1);
 			players[i] = new Player();
 		}
 		
