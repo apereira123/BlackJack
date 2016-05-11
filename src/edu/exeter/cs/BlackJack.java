@@ -74,7 +74,7 @@ public class BlackJack {
 	}
 	
 	public static void bet(Player player, int n) {
-		System.out.println(names[n] + ": Enter the amount of money you would like to bet");
+		System.out.println(names[n] + ": Enter the amount of money you would like to bet.");
 		temp = scan.nextDouble();
 		if (temp <= player.getCash()) {
 			player.setBet(0, temp);
@@ -122,7 +122,7 @@ public class BlackJack {
 	public static void play(Player player, int n) {
 		for (int i = 0; i <= player.getCount(); i++) {
 			if (player.getCash() > 0) {
-				System.out.println(names[n] + ": Enter the amount of money you would like to bet");
+				System.out.println(names[n] + ": If you would like to rasie, enter the amount below.");
 				temp = scan.nextDouble();
 				if (temp <= player.getCash()) {
 					double t = player.getBet(i);
