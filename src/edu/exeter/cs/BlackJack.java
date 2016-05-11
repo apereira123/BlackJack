@@ -122,7 +122,7 @@ public class BlackJack {
 	public static void play(Player player, int n) {
 		for (int i = 0; i <= player.getCount(); i++) {
 			if (player.getCash() > 0) {
-				System.out.println(names[n] + ": If you would like to rasie, enter the amount below.");
+				System.out.println(names[n] + ": If you would like to raise, enter the amount below.");
 				temp = scan.nextDouble();
 				if (temp <= player.getCash()) {
 					double t = player.getBet(i);
@@ -182,7 +182,7 @@ public class BlackJack {
 				System.out.println(names[n] + ": The dealer won.");
 			}	
 		}
-		System.out.println(names[n] + ": You have " + player.getCash() + " remaining.");
+		System.out.println(names[n] + ": You have $" + player.getCash() + " remaining.");
 		System.out.println();
 	}
 	
