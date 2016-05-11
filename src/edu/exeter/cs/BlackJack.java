@@ -7,9 +7,10 @@ public class BlackJack {
 	public static Scanner scan = new Scanner(System.in);
 	
 	public static int i = 0;
-	public static double temp;
 	public static int numPlayers;
+	public static double temp;
 	public static String string;
+	public static boolean error = true;
 	
 	public static String[] names;
 	public static Player[] players;
@@ -19,7 +20,21 @@ public class BlackJack {
 		
 		System.out.println("Welcome to blackjack. You can play with up to six people. Enter the number of people you want to play with below.");
 		
-		numPlayers = scan.nextInt();
+		do {
+			try {
+				numPlayers = scan.nextInt();
+				if (numPlayers > 0 && numPlayers < 6) {
+					error = false;
+				} else {
+					System.out.println("Please enter a number between one and six.");
+				}
+			}
+			catch(Exception e) {
+				System.out.println("Please enter a number between one and six.");
+				scan.next();
+			}
+		} while(error);
+		
 		names = new String[numPlayers];
 		players = new Player[numPlayers];
 		
@@ -29,40 +44,67 @@ public class BlackJack {
 		}
 		
 		for (int i = 0; i < numPlayers; i++) {
-			System.out.println(names[i] + ": Enter the amount of money you would like to play with.");
-			players[i].setCash(scan.nextDouble());
+			System.out.println(names[i] + ": Enter the value of the chips you would like to buy.");
+			error = true;
+			do {
+				try {
+					temp = scan.nextDouble();
+					if (temp > 0) {
+						players[i].setCash(temp);
+						error = false;
+					} else {
+						System.out.println("Please enter an amount greater than 0.");
+					}
+				}
+				catch(Exception e) {
+					System.out.println("Please enter a double.");
+					scan.next();
+				}
+			} while(error);
 		}
 		
 		string = "y";
 		while (string.matches("y")) {
+			
 			for (int i = 0; i < numPlayers; i++) {
 				bet(players[i], i);
 			}
+			
 			System.out.println();
+			
 			for (int i = 0; i < numPlayers; i++) {
 				printCards(players[i], 0, i);
 				printTotal(players[i], 0, i);
 			}
+			
 			for (int i = 0; i < numPlayers; i++) {
 				split(players[i], i);
 			}
+			
 			System.out.println("The dealer's hole card is the " + dealer.getCard(0) + ".");
 			System.out.println();
+			
 			for (int i = 0; i < numPlayers; i++) {
 				play(players[i], i);
 			}
+			
 			dealer.turn();
+			
 			for (int i = 0; i < numPlayers; i++) {
 				printCards(players[i], i);
 			}
+			
 			System.out.println("The dealer had the " + dealer.getCards(0) + ".");
 			System.out.println();
+			
 			for (int i = 0; i < numPlayers; i++) {
 				winner(players[i], i);
 			}
+			
 			for (int i = 0; i < numPlayers; i++) {
 				reset(players[i]);
 			}
+			
 			System.out.println("If you would like to play again enter \"y\".");
 			string = scan.next();
 			System.out.println();
@@ -75,7 +117,21 @@ public class BlackJack {
 	
 	public static void bet(Player player, int n) {
 		System.out.println(names[n] + ": Enter the amount of money you would like to bet.");
-		temp = scan.nextDouble();
+		error = true;
+		do {
+			try {
+				temp = scan.nextDouble();
+				if (temp >= 0) {
+					error = false;
+				} else {
+					System.out.println("Please enter an amount greater than or equal to 0.");
+				}
+			}
+			catch(Exception e) {
+				System.out.println("Please enter a double.");
+				scan.next();
+			}
+		} while(error);
 		if (temp <= player.getCash()) {
 			player.setBet(0, temp);
 			double t = player.getCash();
@@ -123,7 +179,21 @@ public class BlackJack {
 		for (int i = 0; i <= player.getCount(); i++) {
 			if (player.getCash() > 0) {
 				System.out.println(names[n] + ": If you would like to raise, enter the amount below.");
-				temp = scan.nextDouble();
+				error = true;
+				do {
+					try {
+						temp = scan.nextDouble();
+						if (temp >= 0) {
+							error = false;
+						} else {
+							System.out.println("Please enter an amount greater than or equal to 0.");
+						}
+					}
+					catch(Exception e) {
+						System.out.println("Please enter a double.");
+						scan.next();
+					}
+				} while(error);
 				if (temp <= player.getCash()) {
 					double t = player.getBet(i);
 					player.setBet(i, t+temp);
@@ -136,15 +206,6 @@ public class BlackJack {
 			}
 			player.turn(i);
 		}
-	}
-	
-	public static boolean blackJack(Player player) {
-		for (int i = 0; i <= player.getCount(); i++) {
-			if (player.isBlackJack(i)) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public static void printCards(Player player, int n) {
