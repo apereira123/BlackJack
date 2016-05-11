@@ -14,8 +14,8 @@ public class Dealer extends Person{
 		hands.get(handsSize-1).deal();
 	}
 	
-	public void turn(boolean playerPlaying, boolean playerBlackJack) {
-		while (playerPlaying && playerBlackJack && playing && stand) {
+	public void turn() {
+		while (playing && stand) {
 			if (hands.get(handsSize-1).totalScore() < 17 && playing == true) {
 				hands.get(handsSize-1).hit();
 				if (hands.get(handsSize-1).totalScore() > 20) {

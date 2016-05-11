@@ -8,37 +8,60 @@ public class BlackJack {
 	
 	public static int i = 0;
 	public static int temp;
-	public static String string = "y";
+	public static int numPlayers;
+	public static String string;
 	
-	public static Player player1 = new Player();
+	public static String[] names = {"Player 1", "Player 2", "Player 3", "Player 4", "Player 5", "Player 6"};
+	public static Player[] players;
 	public static Dealer dealer = new Dealer();
 	
 	public static void main(String[] args) {
 		
-		System.out.println("Welcome to blackjack. Have fun.");
-		System.out.println();
+		System.out.println("Welcome to blackjack. You can play with up to six people. Enter the number of people you want to play with below.");
+		numPlayers = scan.nextInt();
+		players = new Player[numPlayers];
+		for (int i = 0; i < numPlayers; i++) {
+			players[i] = new Player();
+		}
 		
-		System.out.println("Enter the amount of money you would like to play with.");
-		player1.setCash(scan.nextInt());
+		for (int i = 0; i < numPlayers; i++) {
+			System.out.println(names[i] + ": Enter the amount of money you would like to play with.");
+			players[i].setCash(scan.nextInt());
+		}
 		
-		
+		string = "y";
 		while (string.matches("y")) {
-			bet1(player1);
-			printCards(player1, 0);
-			printTotal(player1, 0);
-			split(player1);
+			for (int i = 0; i < numPlayers; i++) {
+				bet1(players[i], i);
+			}
+			System.out.println();
+			for (int i = 0; i < numPlayers; i++) {
+				printCards(players[i], 0, i);
+				printTotal(players[i], 0, i);
+			}
+			for (int i = 0; i < numPlayers; i++) {
+				split(players[i], i);
+			}
 			System.out.println("The dealer's hole card is the " + dealer.getCard(0) + ".");
 			System.out.println();
-			play(player1);
-			dealer(player1);
-			printCards(player1);
+			for (int i = 0; i < numPlayers; i++) {
+				play(players[i], i);
+			}
+			dealer.turn();
+			for (int i = 0; i < numPlayers; i++) {
+				printCards(players[i], i);
+			}
 			System.out.println("The dealer had the " + dealer.getCards(0) + ".");
 			System.out.println();
-			winner(player1);
-			reset(player1);
-			System.out.println();
+			for (int i = 0; i < numPlayers; i++) {
+				winner(players[i], i);
+			}
+			for (int i = 0; i < numPlayers; i++) {
+				reset(players[i]);
+			}
 			System.out.println("If you would like to play again enter \"y\".");
 			string = scan.next();
+			System.out.println();
 		}
 		
 		System.out.println("Thank you for playing.");
@@ -46,8 +69,8 @@ public class BlackJack {
 		
 	}
 	
-	public static void bet1(Player player) {
-		System.out.println("Enter the amount of money you would like to bet");
+	public static void bet1(Player player, int n) {
+		System.out.println(names[n] + ": Enter the amount of money you would like to bet");
 		temp = scan.nextInt();
 		if (temp <= player.getCash()) {
 			player.setBet(0, temp);
@@ -57,29 +80,28 @@ public class BlackJack {
 			player.setBet(0, player.getCash());
 			player.setCash(0);
 		}
+	}
+	
+	public static void printCards(Player player, int n, int m) {
+		System.out.println(names[m] + ": Your cards are the " + player.getCards(n) + ".");
+	}
+	
+	public static void printTotal(Player player, int n, int m) {
+		System.out.println(names[m] + ": Your total is " + player.totalScore(n) + ".");
 		System.out.println();
 	}
 	
-	public static void printCards(Player player, int n) {
-		System.out.println("Your cards are the " + player.getCards(n) + ".");
-	}
-	
-	public static void printTotal(Player player, int n) {
-		System.out.println("Your total is " + player.totalScore(n) + ".");
-		System.out.println();
-	}
-	
-	public static void split(Player player) {
+	public static void split(Player player, int n) {
 		string = "";
 		while(i <= player.getCount() && player.notFour()) {
 			if (player.isSplit(i)) {
-				System.out.println("If you want to split enter \"s\".");
+				System.out.println(names[n] + ": If you want to split enter \"s\".");
 				string = scan.next();
 				if (string.matches("s")) {
 					player.split(i);
 					for (int j = 0; j <= player.getCount(); j++) {
-							System.out.println("Your cards are the " + player.getCards(j) + ".");
-							System.out.println("Your total is " + player.totalScore(j) + ".");
+							System.out.println(names[n] + ": Your cards are the " + player.getCards(j) + ".");
+							System.out.println(names[n] + ": Your total is " + player.totalScore(j) + ".");
 							System.out.println();
 					}
 				}
@@ -93,10 +115,10 @@ public class BlackJack {
 		}
 	}
 	
-	public static void play(Player player) {
+	public static void play(Player player, int n) {
 		for (int i = 0; i <= player.getCount(); i++) {
 			if (player.getCash() > 0) {
-				System.out.println("Enter the amount of money you would like to bet");
+				System.out.println(names[n] + ": Enter the amount of money you would like to bet");
 				temp = scan.nextInt();
 				if (temp <= player.getCash()) {
 					int t = player.getBet(i);
@@ -112,52 +134,52 @@ public class BlackJack {
 		}
 	}
 	
-	public static void printCards(Player player) {
+	public static boolean blackJack(Player player) {
 		for (int i = 0; i <= player.getCount(); i++) {
-			System.out.println("You had the " + player.getCards(i) + ".");
+			if (player.isBlackJack(i)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static void printCards(Player player, int n) {
+		for (int i = 0; i <= player.getCount(); i++) {
+			System.out.println(names[n] + ": You had the " + player.getCards(i) + ".");
 		}
 	}
 	
-	public static void dealer(Player player) {
-		System.out.println("The dealer's cards are the " + dealer.getCards(0) + ".");
-		System.out.println();
-		dealer.turn(player.isPlaying(), player.isStand());
-	}
-	
-	public static void winner(Player player) {
-		for (int i = 0; i <= player1.getCount(); i++) {
+	public static void winner(Player player, int n) {
+		for (int i = 0; i <= player.getCount(); i++) {
 			if (player.totalScore(i) > 21) {
-				System.out.println("The dealer won.");
+				System.out.println(names[n] + ": The dealer won.");
 			} else if (dealer.totalScore(0) > 21) {
 				int t1 = 2*player.getBet(i);
-				System.out.println(t1);
 				int t2 = player.getCash();
-				System.out.println(t2);
 				player.setCash(t1 + t2);	
-				System.out.println("You won.");
+				System.out.println(names[n] + ": You won.");
 			} else if (player.totalScore(i) == dealer.totalScore(0)) {
 				if (player.isBlackJack(i) && dealer.isBlackJack(0)) {
-					System.out.println("The dealer won.");
+					System.out.println(names[n] + ": The dealer won.");
 				} else if (player.isBlackJack(i)) {
-					int t1 = 2*player.getBet(i);
-					System.out.println(t1);
+					int t1 = 3*player.getBet(i);
 					int t2 = player.getCash();
-					System.out.println(t2);
 					player.setCash(t1 + t2);	
-					System.out.println("You won.");
+					System.out.println(names[n] + ": You won.");
 				} else {
-					System.out.println("The dealer won.");
+					System.out.println(names[n] + ": The dealer won.");
 				}
 			} else if (player.totalScore(i) > dealer.totalScore(0)) {
 				int t1 = 2*player.getBet(i);
 				int t2 = player.getCash();
 				player.setCash(t1 + t2);	
-				System.out.println("You won.");
+				System.out.println(names[n] + ": You won.");
 			} else {
-				System.out.println("The dealer won.");
+				System.out.println(names[n] + ": The dealer won.");
 			}	
 		}
-		System.out.println("You have " + player.getCash() + " remaining.");
+		System.out.println(names[n] + ": You have " + player.getCash() + " remaining.");
+		System.out.println();
 	}
 	
 	public static void reset(Player player) {

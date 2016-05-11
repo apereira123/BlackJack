@@ -36,11 +36,5 @@ public class Person {
 	public boolean isSplit(int n) {
 		return hands.get(n).isSplit();
 	}
-	public boolean isPlaying() {
-		return playing;
-	}
-	public boolean isStand() {
-		return stand;
-	}
 	
 }
